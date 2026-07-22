@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brainz Edu World | Creating The Empires Of The Future.</title>
+  
+  <!-- Preconnect to Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <!-- Preload Stylesheet for first-frame rendering -->
+  <link rel="preload" href="css/style.css" as="style">
+  
+  <!-- Google Fonts Link (Replaced CSS @import to prevent render-blocking FOUT/FOUC) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+  
+
+
+  <!-- Meta Descriptions & SEO -->
+  <meta name="description" content="Welcome to Brainz Edu World, a premium school offering outstanding CBSE education, modern smart classrooms, experienced faculty, and top-tier sports and robotics labs.">
+  <meta name="keywords" content="Brainz Edu World, Brainz School, CBSE School, Best School, High School, Primary School, Admissions Open, International School India">
+  <meta name="author" content="Brainz Edu World">
+  <link rel="icon" href="assets/Home/Images/logo-modified.png" type="image/png">
+</head>
+<body>
+  <!-- Global Particle Background -->
+  <div id="particles-js"></div>
+
+  <!-- ==========================================
+  1. Sticky Transparent Navbar
+  ========================================== -->
+  <nav class="header-nav" id="main-navbar">
+    <div class="nav-container">
+      <a href="#home" class="nav-logo" id="nav-logo-link" aria-label="Brainz Edu World Home">
+        <img src="assets/Home/Images/logo_with_full_name.png" alt="Brainz Edu World Logo" class="nav-logo-img">
+        <div class="nav-logo-text">
+          Brainz
+          <span>Edu World</span>
+        </div>
+      </a>
+      
+      <ul class="nav-menu">
+        <li><a href="#home" class="nav-link active">Home</a></li>
+        <li><a href="about.html" class="nav-link">About Us</a></li>
+        <li><a href="school_life.html" class="nav-link">School Life</a></li>
+        <li><a href="admissions.html" class="nav-link">Admissions</a></li>
+        <li><a href="testimonials.html" class="nav-link">Testimonials</a></li>
+        <li><a href="disclosure.html" class="nav-link">Disclosure</a></li>
+        <li><a href="https://brainz.myclassboard.com/" target="_blank" rel="noopener noreferrer" class="nav-link">Fee Portal</a></li>
+        <li><a href="contact.html" class="nav-link">Contact</a></li>
+      </ul>
+      
+      <div class="nav-cta">
+        <a href="admissions.html" class="btn btn-accent" id="nav-apply-btn">Apply Now</a>
+      </div>
+      
+      <button class="nav-hamburger" id="nav-hamburger-btn" aria-label="Toggle mobile menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile Drawer Menu -->
+  <aside class="mobile-menu-drawer" id="mobile-menu-drawer-aside" aria-hidden="true">
+    <ul class="mobile-nav-list">
+      <li><a href="#home" class="mobile-nav-link">Home</a></li>
+      <li><a href="about.html" class="mobile-nav-link">About Us</a></li>
+      <li><a href="school_life.html" class="mobile-nav-link">School Life</a></li>
+      <li><a href="admissions.html" class="mobile-nav-link">Admissions</a></li>
+      <li><a href="testimonials.html" class="mobile-nav-link">Testimonials</a></li>
+      <li><a href="disclosure.html" class="mobile-nav-link">Disclosure</a></li>
+      <li><a href="https://brainz.myclassboard.com/" target="_blank" rel="noopener noreferrer" class="mobile-nav-link">Fee Portal</a></li>
+      <li><a href="contact.html" class="mobile-nav-link">Contact Us</a></li>
+    </ul>
+    <div class="mobile-drawer-footer">
+      <a href="admissions.html" class="btn btn-accent text-center">Apply Now</a>
+      <a href="contact.html" class="btn btn-outline-dark text-center">Inquire Now</a>
+    </div>
+  </aside>
+
+  <!-- ==========================================
+  2. Hero Section
+  ========================================== -->
+  <section class="hero" id="home">
+    <div class="hero-bg-container">
+      <img src="assets/Home/Images/banner.png" alt="Brainz Edu World Campus View" class="hero-img">
+    </div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="hero-badge fade-up-element visible">Welcome to Excellence</div>
+      <h1 class="hero-title fade-up-element visible delay-1">Creating The Empires<br>Of The Future.</h1>
+      <p class="hero-desc fade-up-element visible delay-2">We empower students to discover their potential through innovative CBSE learning, critical thinking, global perspectives, and values that endure.</p>
+      <div class="hero-actions fade-up-element visible delay-3">
+        <a href="#about" class="btn btn-accent" id="hero-explore-btn">Explore Campus</a>
+        <a href="admissions.html" class="btn btn-outline" id="hero-apply-btn">Apply Now</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+  3. Statistics Section
+  ========================================== -->
+  <section class="stats-section" id="statistics">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-item fade-up-element">
+          <div class="stat-number"><span class="stat-number-val" data-target="15" data-suffix="+">0</span></div>
+          <div class="stat-label">Years of Excellence</div>
+        </div>
+        <div class="stat-item fade-up-element delay-1">
+          <div class="stat-number"><span class="stat-number-val" data-target="2500" data-suffix="+">0</span></div>
+          <div class="stat-label">Students Enrolled</div>
+        </div>
+        <div class="stat-item fade-up-element delay-2">
+          <div class="stat-number"><span class="stat-number-val" data-target="120" data-suffix="+">0</span></div>
+          <div class="stat-label">Expert Faculty</div>
+        </div>
+        <div class="stat-item fade-up-element delay-3">
+          <div class="stat-number"><span style="color:var(--color-primary);">CBSE</span></div>
+          <div class="stat-label">Curriculum Standard</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+  4. Why Brainz Edu World (Collage & Features)
+  ========================================== -->
+  <section class="why-section" id="about">
+    <div class="container">
+      <div class="why-grid">
+        <!-- Image Collage -->
+        <div class="collage-container fade-up-element">
+          <div class="collage-img-wrapper collage-1">
+            <img src="assets/Home/Images/discussion.jpg" alt="Students engaging in collaborative classroom learning">
+          </div>
+          <div class="collage-img-wrapper collage-2">
+            <img src="assets/Home/Images/problem_solving.jpeg" alt="Interactive digital laboratory experiments">
+          </div>
+          <div class="collage-img-wrapper collage-3">
+            <img src="assets/Home/Images/school_reopening_activity.jpg" alt="Outdoor educational campus activity">
+          </div>
+          <div class="collage-img-wrapper collage-4">
+            <img src="assets/Home/Images/university_fair.jpg" alt="School assemblies and cultural events">
+          </div>
+          <div class="collage-img-wrapper collage-5">
+            <img src="assets/Home/Images/exhibition.jpg" alt="Students science exhibition and talent projects">
+          </div>
+          <div class="collage-img-wrapper collage-6">
+            <img src="assets/Home/Images/teaching.jpg" alt="Interactive classroom lecture sessions">
+          </div>
+        </div>
+        
+        <!-- Description / Cards -->
+        <div class="why-content">
+          <div class="section-subtitle">Why Brainz Edu World</div>
+          <h2 class="section-title">
+            Where Learning Meets 
+            <span class="gooey-container">
+              <span id="text1" class="gooey-word"></span>
+              <span id="text2" class="gooey-word"></span>
+            </span>
+          </h2>
+          <p class="section-desc" style="margin-bottom: 2.5rem;">We provide an academic ecosystem engineered to build 21st-century competencies. By combining cutting-edge infrastructure with seasoned pedagogy, we prepare students for tomorrow's complex world.</p>
+          
+          <div class="why-features">
+            <div class="why-card fade-up-element">
+              <div class="why-card-icon" aria-hidden="true">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"/></svg>
+              </div>
+              <h3>Smart Classrooms</h3>
+              <p>Digitally equipped smart boards and fluid multimedia learning environments.</p>
+            </div>
+            
+            <div class="why-card fade-up-element delay-1">
+              <div class="why-card-icon" aria-hidden="true">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              </div>
+              <h3>Experienced Faculty</h3>
+              <p>Mentors and educators trained in holistic developmental psychological models.</p>
+            </div>
+            
+            <div class="why-card fade-up-element">
+              <div class="why-card-icon" aria-hidden="true">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+              </div>
+              <h3>Digital Learning</h3>
+              <p>State-of-the-art interactive platforms designed for self-paced intellectual discovery.</p>
+            </div>
+            
+            <div class="why-card fade-up-element delay-1">
+              <div class="why-card-icon" aria-hidden="true">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M6 12A6 6 0 0 1 18 12"/></svg>
+              </div>
+              <h3>Sports Academy</h3>
+              <p>Extensive sports fields, customized athletics, football, and indoor sporting arenas.</p>
+            </div>
+            
+            <div class="why-card fade-up-element">
+              <div class="why-card-icon" aria-hidden="true">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              </div>
+              <h3>Safe Campus</h3>
+              <p>Fully secure gated facility with 24/7 CCTV vigilance and strict guard protocols.</p>
+            </div>
+            
+            <div class="why-card fade-up-element delay-1">
+              <div class="why-card-icon" aria-hidden="true">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg>
+              </div>
+              <h3>Robotics & STEAM</h3>
+              <p>Advanced electronics and automation lab to foster programmatic problem-solving.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+  5. Academic Programs
+  ========================================== -->
+  <section class="academics-section" id="academics">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-subtitle">Academic Pathways</span>
+        <h2 class="section-title">Nurturing Minds at Every Stage</h2>
+        <p class="section-desc">Our CBSE curriculum balances conceptual clarity, research projects, creative arts, and physical education to foster structured cognitive development.</p>
+      </div>
+      
+      <div class="grid-3">
+        <!-- Pre-Primary -->
+        <article class="academic-card fade-up-element">
+          <div class="academic-card-img-wrapper">
+            <span class="academic-card-badge">Foundation</span>
+            <img src="assets/Home/Images/1.-Critical-Thinking.png" alt="Pre Primary visual learning classes" class="academic-card-img">
+          </div>
+          <div class="academic-card-content">
+            <div>
+              <h3 class="academic-card-title">Pre-Primary</h3>
+              <p class="academic-card-desc">Focuses on sensory exploration, coordination, and building linguistic familiarity through play-based modules.</p>
+            </div>
+            <div class="academic-card-footer">
+              <span class="academic-age">Ages 3 - 5 Years</span>
+              <a href="contact.html" class="academic-learn-more">Inquire <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+            </div>
+          </div>
+        </article>
+        
+        <!-- Primary -->
+        <article class="academic-card fade-up-element delay-1">
+          <div class="academic-card-img-wrapper">
+            <span class="academic-card-badge">Elementary</span>
+            <img src="assets/Home/Images/5.-Discovery.png" alt="Primary classroom learning modules" class="academic-card-img">
+          </div>
+          <div class="academic-card-content">
+            <div>
+              <h3 class="academic-card-title">Primary School</h3>
+              <p class="academic-card-desc">Develops mathematical aptitude, science concepts, artistic creativity, and expressive language skills.</p>
+            </div>
+            <div class="academic-card-footer">
+              <span class="academic-age">Grades I - V</span>
+              <a href="contact.html" class="academic-learn-more">Inquire <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+            </div>
+          </div>
+        </article>
+        
+        <!-- Middle School -->
+        <article class="academic-card fade-up-element delay-2">
+          <div class="academic-card-img-wrapper">
+            <span class="academic-card-badge">Middle</span>
+            <img src="assets/Home/Images/2.-Collaboration.png" alt="Middle School students working in a science lab" class="academic-card-img">
+          </div>
+          <div class="academic-card-content">
+            <div>
+              <h3 class="academic-card-title">Middle School</h3>
+              <p class="academic-card-desc">Introduces critical analysis, collaborative projects, laboratory sciences, and advanced computation.</p>
+            </div>
+            <div class="academic-card-footer">
+              <span class="academic-age">Grades VI - VIII</span>
+              <a href="contact.html" class="academic-learn-more">Inquire <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+            </div>
+          </div>
+        </article>
+        
+        <!-- Secondary -->
+        <article class="academic-card fade-up-element">
+          <div class="academic-card-img-wrapper">
+            <span class="academic-card-badge">Secondary</span>
+            <img src="assets/Home/Images/8.-Holistic.png" alt="Secondary students study group" class="academic-card-img">
+          </div>
+          <div class="academic-card-content">
+            <div>
+              <h3 class="academic-card-title">Secondary School</h3>
+              <p class="academic-card-desc">Rigorous preparations under CBSE board frameworks ensuring academic stability and subject depth.</p>
+            </div>
+            <div class="academic-card-footer">
+              <span class="academic-age">Grades IX - X</span>
+              <a href="contact.html" class="academic-learn-more">Inquire <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+            </div>
+          </div>
+        </article>
+        
+        <!-- Senior Secondary -->
+        <article class="academic-card fade-up-element delay-1" style="grid-column: span 2;">
+          <div class="academic-card-img-wrapper">
+            <span class="academic-card-badge">Senior Secondary</span>
+            <img src="assets/Home/Images/teaching.jpg" alt="Senior Secondary classroom lectures" class="academic-card-img">
+          </div>
+          <div class="academic-card-content">
+            <div>
+              <h3 class="academic-card-title">Senior Secondary School</h3>
+              <p class="academic-card-desc">Specialized streams (Science, Commerce, Humanities) designed to transition students seamlessly into top universities and competitive professions globally.</p>
+            </div>
+            <div class="academic-card-footer">
+              <span class="academic-age">Grades XI - XII</span>
+              <a href="contact.html" class="academic-learn-more">Inquire <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+
+
+  <!-- ==========================================
+  7. Why Parents Choose Us (6 Premium Cards)
+  ========================================== -->
+  <section class="parents-section" id="why-choose">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-subtitle">Parent Perspectives</span>
+        <h2 class="section-title">The Brainz Distinction</h2>
+        <p class="section-desc">We foster a strong pedagogical connection between homes and schools to ensure students thrive academically, physically, and emotionally.</p>
+      </div>
+      
+      <div class="grid-3">
+        <!-- 1. Value Based Education -->
+        <div class="choice-card fade-up-element">
+          <div class="choice-icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <h3>Values-Based Education</h3>
+          <p>Instilling social responsibility, empathy, and integrity as foundational principles alongside core academics.</p>
+        </div>
+        
+        <!-- 2. Individualized Attention -->
+        <div class="choice-card fade-up-element delay-1">
+          <div class="choice-icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <h3>Individualized Attention</h3>
+          <p>Maintained low student-teacher ratio ensuring tailored focus and structured developmental maps.</p>
+        </div>
+        
+        <!-- 3. Advanced STEAM Labs -->
+        <div class="choice-card fade-up-element delay-2">
+          <div class="choice-icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          </div>
+          <h3>State-of-the-art Infrastructure</h3>
+          <p>Well-equipped scientific labs, libraries, smart learning panels, and computing infrastructure.</p>
+        </div>
+        
+        <!-- 4. Co-curricular Focus -->
+        <div class="choice-card fade-up-element">
+          <div class="choice-icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg>
+          </div>
+          <h3>Co-Curricular Excellence</h3>
+          <p>Regular opportunities across theatre, debate, visual arts, music bands, and environmental forums.</p>
+        </div>
+        
+        <!-- 5. Transparent Communication -->
+        <div class="choice-card fade-up-element delay-1">
+          <div class="choice-icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          </div>
+          <h3>Transparent Communication</h3>
+          <p>Interactive student portals keeping parents updated with transparent reviews and reports.</p>
+        </div>
+        
+        <!-- 6. Career Mentorship -->
+        <div class="choice-card fade-up-element delay-2">
+          <div class="choice-icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+          </div>
+          <h3>Global Mentorship</h3>
+          <p>Comprehensive college guidance services helping students choose outstanding courses globally.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+  8. Testimonials Section
+  ========================================== -->
+  <section class="testimonials-section" id="testimonials">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-subtitle">Parent & Alum Feedback</span>
+        <h2 class="section-title">What Our Community Says</h2>
+        <p class="section-desc">Hear directly from parents and alumni about the impact of the academic culture at Brainz Edu World.</p>
+      </div>
+      
+      <div class="testimonials-slider-container">
+        <div class="testimonials-wrapper">
+          <!-- Slide 1 -->
+          <div class="testimonial-slide">
+            <div class="testimonial-card">
+              <div class="testimonial-quote-icon" aria-hidden="true">&ldquo;</div>
+              <div class="testimonial-stars" aria-label="5 star rating">
+                &#9733;&#9733;&#9733;&#9733;&#9733;
+              </div>
+              <p class="testimonial-text">"Rebuilding a kid's educational path requires transparency and warmth. The smart classrooms and personalized guidance at Brainz have helped our daughter develop exceptional confidence and outstanding communication skills."</p>
+              <div class="testimonial-user">
+                <div class="testimonial-avatar">MS</div>
+                <div class="testimonial-details">
+                  <h4>Meera Sen</h4>
+                  <span>Parent of Class X Student</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Slide 2 -->
+          <div class="testimonial-slide">
+            <div class="testimonial-card">
+              <div class="testimonial-quote-icon" aria-hidden="true">&ldquo;</div>
+              <div class="testimonial-stars" aria-label="5 star rating">
+                &#9733;&#9733;&#9733;&#9733;&#9733;
+              </div>
+              <p class="testimonial-text">"As an alumnus, I can vouch for the immense support Brainz offers. The Robotics classes and scientific labs gave me the foundation to clear competitive exams and pursue engineering at a top university."</p>
+              <div class="testimonial-user">
+                <div class="testimonial-avatar">RK</div>
+                <div class="testimonial-details">
+                  <h4>Rohan Kapoor</h4>
+                  <span>Software Engineer, Batch of 2021</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Slide 3 -->
+          <div class="testimonial-slide">
+            <div class="testimonial-card">
+              <div class="testimonial-quote-icon" aria-hidden="true">&ldquo;</div>
+              <div class="testimonial-stars" aria-label="5 star rating">
+                &#9733;&#9733;&#9733;&#9733;&#9733;
+              </div>
+              <p class="testimonial-text">"A perfect balance between co-curriculars and academics. My child is not just scoring high marks, but is actively participating in national debates and sports events. Highly recommended!"</p>
+              <div class="testimonial-user">
+                <div class="testimonial-avatar">AV</div>
+                <div class="testimonial-details">
+                  <h4>Ananya Verma</h4>
+                  <span>Parent of Class VIII Student</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Controls -->
+        <div class="slider-controls">
+          <button class="slider-btn slider-btn-prev" aria-label="Previous testimonial">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+          </button>
+          
+          <div class="slider-dots"></div>
+          
+          <button class="slider-btn slider-btn-next" aria-label="Next testimonial">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+  9. Latest News
+  ========================================== -->
+  <section class="news-section" id="events">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-subtitle">Updates</span>
+        <h2 class="section-title">Latest Events & Happenings</h2>
+        <p class="section-desc">Stay tuned to the latest accomplishments, updates, and upcoming events taking place at Brainz.</p>
+      </div>
+      
+      <div class="grid-3">
+        <!-- Card 1 -->
+        <article class="news-card fade-up-element">
+          <div class="news-img-wrapper">
+            <img src="assets/Home/Images/problem_solving.jpeg" alt="Students receiving science medals" class="news-img">
+          </div>
+          <div class="news-content">
+            <div>
+              <div class="news-meta">
+                <span>Academics</span>
+                <span>•</span>
+                <span>June 24, 2026</span>
+              </div>
+              <h3 class="news-title">Brainz Students Excel in CBSE Zonal Science Exhibition</h3>
+              <p class="news-desc">Our innovative smart-automation models won the gold ribbon at the regional competition, earning entry to the Nationals.</p>
+            </div>
+            <a href="#events" class="news-link">Read Full Article <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+          </div>
+        </article>
+        
+        <!-- Card 2 -->
+        <article class="news-card fade-up-element delay-1">
+          <div class="news-img-wrapper">
+            <img src="assets/Home/Images/solar_energy_activity.jpg" alt="Students demonstrating solar energy project" class="news-img">
+          </div>
+          <div class="news-content">
+            <div>
+              <div class="news-meta">
+                <span>Eco Club</span>
+                <span>•</span>
+                <span>May 18, 2026</span>
+              </div>
+              <h3 class="news-title">Eco-Club: Solar Energy Demonstration Activity</h3>
+              <p class="news-desc">Students of the Eco-Club conducted a hands-on science demonstration, successfully lighting a bulb using solar power models to learn about renewable energy.</p>
+            </div>
+            <a href="#events" class="news-link">Read Full Article <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+          </div>
+        </article>
+        
+        <!-- Card 3 -->
+        <article class="news-card fade-up-element delay-2">
+          <div class="news-img-wrapper">
+            <img src="assets/Home/Images/kindness_matters_activity.jpg" alt="Students with kindness matters banners" class="news-img">
+          </div>
+          <div class="news-content">
+            <div>
+              <div class="news-meta">
+                <span>Community</span>
+                <span>•</span>
+                <span>April 05, 2026</span>
+              </div>
+              <h3 class="news-title">Kindness Matters Campaign In Meerut Region</h3>
+              <p class="news-desc">An interactive neighborhood outreach drive that raised resources, blankets, and school kits for underserved communities.</p>
+            </div>
+            <a href="#events" class="news-link">Read Full Article <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+  10. Virtual Campus Tour
+  ========================================== -->
+  <section class="tour-section" id="tour">
+    <div class="container">
+      <div class="tour-container fade-up-element">
+        <div class="tour-grid">
+          <div class="tour-info">
+            <span class="section-subtitle">Video Tour</span>
+            <h2>Take a Virtual Walk Through Our Campus</h2>
+            <p>Our campus is thoughtfully designed to blend modern aesthetics with functional utility. Experience our dynamic research areas, smart classrooms, athletic complexes, and spacious recreation halls from the comfort of your screen.</p>
+            <button class="btn btn-primary" onclick="document.querySelector('.tour-media-wrapper').click();">Launch Tour Video</button>
+          </div>
+          
+          <!-- Virtual Tour Media Click-to-Play -->
+          <div class="tour-media-wrapper" data-video="assets/Home/Videos/virtual_tour_eg.mp4" aria-label="Play virtual campus tour video" role="button">
+            <img src="assets/Home/Images/banner.png" alt="Brainz Campus Building Preview">
+            <button class="tour-play-btn" aria-label="Play video">
+              <span class="tour-play-pulse"></span>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tour Video Modal -->
+  <div class="tour-modal" aria-hidden="true" role="dialog" aria-label="Virtual tour player">
+    <div class="tour-modal-content">
+      <button class="tour-modal-close" aria-label="Close tour player">&times;</button>
+      <iframe src="" class="tour-modal-iframe" allow="autoplay; encrypted-media" allowfullscreen style="display: none;"></iframe>
+      <video class="tour-modal-video" controls style="display: none; width: 100%; height: 100%; object-fit: cover; border: none;"></video>
+    </div>
+  </div>
+
+  <!-- ==========================================
+  11. Admissions Call-To-Action
+  ========================================== -->
+  <section class="cta-section" id="admissions">
+    <div class="container">
+      <div class="cta-container fade-up-element">
+        <div class="cta-content">
+          <h2 class="cta-title">Admissions Open 2026-2027</h2>
+          <p class="cta-desc">Enroll your child today at Brainz Edu World and unlock pathways to excellent cognitive growth, global resources, and ethical success.</p>
+          <div class="cta-actions">
+            <a href="admissions.html" class="btn btn-accent">Apply Now</a>
+            <a href="contact.html" class="btn btn-outline">Inquire Now</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+  12. Premium Footer
+  ========================================== -->
+  <footer class="footer" id="contact">
+    <div class="container">
+      <div class="footer-top">
+        <!-- Brand -->
+        <div class="footer-brand">
+          <div class="footer-brand-logo">
+            <img src="assets/Home/Images/logo_with_full_name.png" alt="Brainz Footer Logo" class="footer-brand-logo-img">
+            <div class="footer-brand-logo-text">
+              Brainz
+              <span>Edu World</span>
+            </div>
+          </div>
+          <p class="footer-desc">Reimagining education under modern scientific and values-oriented frameworks. Empowering outstanding generations since 15+ years.</p>
+          <div class="footer-socials">
+            <a href="https://www.facebook.com/brainzeduworldschool#" class="footer-social-icon" target="_blank" aria-label="Brainz Edu World Facebook">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            </a>
+            <a href="https://www.instagram.com/brainzeduworld?igshid=ky9js1q1tnk7" class="footer-social-icon" target="_blank" aria-label="Brainz Edu World Instagram">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </a>
+            <a href="https://www.youtube.com/channel/UCGV0_XwvxQrJm8anXHXTIZg" class="footer-social-icon" target="_blank" aria-label="Brainz Edu World YouTube">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg>
+            </a>
+          </div>
+        </div>
+        
+        <!-- Quick Links -->
+        <div>
+          <h4>Quick Links</h4>
+          <ul class="footer-links-list">
+            <li><a href="#home" class="footer-link">Home</a></li>
+            <li><a href="about.html" class="footer-link">About School</a></li>
+            <li><a href="school_life.html" class="footer-link">School Life</a></li>
+            <li><a href="admissions.html" class="footer-link">Admissions Open</a></li>
+            <li><a href="testimonials.html" class="footer-link">Testimonials</a></li>
+            <li><a href="disclosure.html" class="footer-link">Disclosure</a></li>
+            <li><a href="https://brainz.myclassboard.com/" target="_blank" rel="noopener noreferrer" class="footer-link">Fee Portal</a></li>
+          </ul>
+        </div>
+        
+        <!-- Contact -->
+        <div>
+          <h4>Contact Us</h4>
+          <ul class="footer-contact-list">
+            <li class="footer-contact-item">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <span>Kila Road, Village Bhavanpur, Meerut,<br>Uttar Pradesh 250001, India</span>
+            </li>
+            <li class="footer-contact-item">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              <span>+91 9105014545</span>/<br><span>+91 8192004545</span>
+            </li>
+            <li class="footer-contact-item">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              <span>contact@brainzeduworld.com</span>
+            </li>
+          </ul>
+        </div>
+        
+        <!-- Google Maps -->
+        <div>
+          <h4>Find Us On Map</h4>
+          <div class="footer-map-placeholder">
+            <!-- Iframe embed for school location (using general Meerut placeholder for visual fidelity) -->
+            <iframe src="https://maps.google.com/maps?q=Brainz%20Edu%20World%2C%20Kila%20Road%2C%20Bhavanpur%2C%20Meerut&t=&z=15&ie=UTF8&iwloc=&output=embed" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <div>&copy; 2026 Brainz Edu World. All Rights Reserved.</div>
+        <div style="display: flex; gap: 1.5rem;">
+          <a href="#" class="footer-link">Privacy Policy</a>
+          <a href="#" class="footer-link">Terms of Service</a>
+          <a href="#" class="footer-link">Sitemap</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SVG Gooey Filter for Text Morphing Component -->
+  <svg id="filters" style="display: none;">
+    <defs>
+      <filter id="threshold">
+        <feColorMatrix in="SourceGraphic" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 30 -15" />
+      </filter>
+    </defs>
+  </svg>
+
+  <!-- Floating Circular Brainzly AI Assistant Button -->
+  <div class="brainzly-floating-btn" id="brainzly-toggle-btn" title="Ask Brainzly">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+    <span class="brainzly-tooltip">Ask Brainzly</span>
+  </div>
+
+  <!-- Premium Glassmorphism Chat Window -->
+  <div class="brainzly-chat-window" id="brainzly-chat-container">
+    <!-- Header with animated background -->
+    <div class="brainzly-chat-header">
+      <div class="brainzly-spline-wrapper" id="brainzly-spline-container">
+        <!-- Lazy loaded spline viewer inserted here when chat window opens -->
+      </div>
+      <div class="brainzly-glass-overlay"></div>
+      <button class="brainzly-close-btn" id="brainzly-close-chat" aria-label="Close chat">&times;</button>
+      <div class="brainzly-header-meta">
+        <div class="brainzly-status-wrapper">
+          <span class="brainzly-online-dot"></span>
+          <span class="brainzly-online-text">Online</span>
+        </div>
+        <h3>Brainzly</h3>
+        <p class="subtitle">Your AI School Guide</p>
+        <p class="tagline">Always here to help</p>
+      </div>
+    </div>
+
+    <!-- Conversation Feed -->
+    <div class="brainzly-chat-feed" id="brainzly-chat-feed-div">
+      <!-- Welcome Message -->
+      <div class="brainzly-welcome-card">
+        <p class="welcome-title">Hello 👋</p>
+        <p class="welcome-text">I'm <strong>Brainzly</strong>, the official AI assistant of Brainz Edu World.</p>
+        <p class="welcome-text">I can answer questions about admissions, academics, facilities, transport, school timings and much more.</p>
+      </div>
+
+      <!-- Suggestion Chips -->
+      <div class="brainzly-chips-container" id="brainzly-chips-list">
+        <button type="button" class="brainzly-chip-btn">Admissions</button>
+        <button type="button" class="brainzly-chip-btn">Academics</button>
+        <button type="button" class="brainzly-chip-btn">School Facilities</button>
+        <button type="button" class="brainzly-chip-btn">Campus Tour</button>
+        <button type="button" class="brainzly-chip-btn">Fee Structure</button>
+        <button type="button" class="brainzly-chip-btn">Transport</button>
+        <button type="button" class="brainzly-chip-btn">Contact Us</button>
+      </div>
+    </div>
+
+    <!-- Message Input Bar -->
+    <form class="brainzly-chat-input-form" id="brainzly-input-form">
+      <input type="text" id="brainzly-user-input" placeholder="Ask Brainzly anything..." autocomplete="off">
+      <button type="button" class="input-icon-btn" id="brainzly-voice-btn" title="Voice Input">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v1a7 7 0 0 1-14 0v-1"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+      </button>
+      <button type="submit" class="input-send-btn" id="brainzly-send-btn" disabled>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      </button>
+    </form>
+  </div>
+
+  <!-- Particles.js Animation Background -->
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+  <script src="js/particles-config.js"></script>
+
+  <!-- Vanilla JavaScript Logic -->
+  <script src="js/main.js"></script>
+</body>
+</html>
