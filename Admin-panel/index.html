@@ -1,0 +1,2079 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Staff News Portal | Brainz Edu World</title>
+  <link rel="icon" type="image/png" href="../assets/Home/Images/logo-modified.png">
+
+  <!-- Google Fonts Preconnect -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <!-- Core Design System -->
+  <link rel="stylesheet" href="../css/style.css">
+
+  <!-- Official Supabase Client SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    /* ==========================================================
+       Admin Portal Custom Styles
+       ========================================================== */
+    body.admin-body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-color: var(--color-bg);
+      color: var(--color-text);
+      font-family: var(--font-body);
+    }
+
+    .admin-container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* Top Navigation */
+    .admin-navbar {
+      background: var(--color-surface);
+      border-bottom: 1px solid var(--color-card-border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .admin-nav-content {
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .admin-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      text-decoration: none;
+      color: var(--color-text-dark);
+    }
+
+    .admin-brand img {
+      height: 42px;
+      width: auto;
+    }
+
+    .admin-brand-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .admin-brand-title {
+      font-family: var(--font-primary);
+      font-weight: 700;
+      font-size: 1.15rem;
+      line-height: 1.2;
+    }
+
+    .admin-brand-badge {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--color-primary);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .admin-nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .staff-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(10, 77, 140, 0.08);
+      border: 1px solid rgba(10, 77, 140, 0.15);
+      padding: 0.35rem 0.85rem;
+      border-radius: var(--radius-full);
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--color-primary);
+    }
+
+    [data-theme="dark"] .staff-badge {
+      background: rgba(56, 189, 248, 0.1);
+      border-color: rgba(56, 189, 248, 0.25);
+      color: #38BDF8;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #10B981;
+      box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+    }
+
+    .admin-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius-sm);
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: none;
+      text-decoration: none;
+    }
+
+    .admin-btn-primary {
+      background: var(--color-primary);
+      color: #FFFFFF;
+    }
+
+    .admin-btn-primary:hover {
+      background: var(--color-primary-light);
+      transform: translateY(-1px);
+    }
+
+    .admin-btn-outline {
+      background: transparent;
+      border: 1px solid var(--color-card-border);
+      color: var(--color-text);
+    }
+
+    .admin-btn-outline:hover {
+      background: rgba(0, 0, 0, 0.04);
+      border-color: var(--color-text-muted);
+    }
+
+    [data-theme="dark"] .admin-btn-outline:hover {
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .admin-btn-danger {
+      background: rgba(239, 68, 68, 0.1);
+      color: #EF4444;
+      border: 1px solid rgba(239, 68, 68, 0.2);
+    }
+
+    .admin-btn-danger:hover {
+      background: #EF4444;
+      color: #FFFFFF;
+    }
+
+    /* Auth State Card (#login-view) */
+    .login-wrapper {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 1rem;
+    }
+
+    .login-card {
+      width: 100%;
+      max-width: 440px;
+      background: var(--color-surface);
+      border: 1px solid var(--color-card-border);
+      border-radius: var(--radius-lg);
+      padding: 2.75rem 2.25rem;
+      box-shadow: var(--shadow-xl);
+      text-align: center;
+    }
+
+    .login-logo {
+      height: 52px;
+      margin-bottom: 1.25rem;
+    }
+
+    .login-title {
+      font-family: var(--font-primary);
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--color-text-dark);
+      margin-bottom: 0.35rem;
+    }
+
+    .login-subtitle {
+      font-size: 0.88rem;
+      color: var(--color-text-muted);
+      margin-bottom: 2rem;
+      line-height: 1.5;
+    }
+
+    /* Form Elements */
+    .form-group {
+      margin-bottom: 1.25rem;
+      text-align: left;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--color-text-dark);
+      margin-bottom: 0.4rem;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--color-card-border);
+      border-radius: var(--radius-sm);
+      background: var(--color-surface);
+      color: var(--color-text);
+      font-family: inherit;
+      font-size: 0.92rem;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      box-sizing: border-box;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 3px rgba(10, 77, 140, 0.12);
+    }
+
+    [data-theme="dark"] .form-control:focus {
+      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
+    }
+
+    /* Dashboard Layout (#dashboard-view) */
+    .dashboard-wrapper {
+      flex: 1;
+      padding: 2.5rem 0 4rem;
+    }
+
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 1.35fr 1fr;
+      gap: 2rem;
+      align-items: start;
+    }
+
+    @media (max-width: 992px) {
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .dashboard-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-card-border);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      box-shadow: var(--shadow-md);
+    }
+
+    .card-header-flex {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--color-card-border);
+    }
+
+    .card-title {
+      font-family: var(--font-primary);
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--color-text-dark);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* File Dropzone */
+    .dropzone-box {
+      border: 2px dashed var(--color-card-border);
+      border-radius: var(--radius-md);
+      padding: 1.75rem 1rem;
+      text-align: center;
+      cursor: pointer;
+      background: rgba(10, 77, 140, 0.02);
+      transition: all 0.2s ease;
+      position: relative;
+    }
+
+    .dropzone-box:hover,
+    .dropzone-box.dragover {
+      border-color: var(--color-primary);
+      background: rgba(10, 77, 140, 0.05);
+    }
+
+    .dropzone-box input[type="file"] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+      width: 100%;
+      height: 100%;
+    }
+
+    .dropzone-icon {
+      width: 36px;
+      height: 36px;
+      color: var(--color-primary);
+      margin: 0 auto 0.5rem;
+      opacity: 0.8;
+    }
+
+    .dropzone-text {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--color-text-dark);
+    }
+
+    .dropzone-hint {
+      font-size: 0.75rem;
+      color: var(--color-text-muted);
+      margin-top: 0.25rem;
+    }
+
+    .image-preview-container {
+      margin-top: 1rem;
+      display: none;
+      position: relative;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      border: 1px solid var(--color-card-border);
+      max-height: 200px;
+    }
+
+    .image-preview-container img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .preview-remove-btn {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: rgba(0, 0, 0, 0.65);
+      color: #FFFFFF;
+      border: none;
+      border-radius: 50%;
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .preview-remove-btn:hover {
+      background: #EF4444;
+    }
+
+    /* Alerts */
+    .admin-alert {
+      padding: 0.85rem 1.15rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.88rem;
+      line-height: 1.5;
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.65rem;
+    }
+
+    .admin-alert-error {
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #DC2626;
+    }
+
+    [data-theme="dark"] .admin-alert-error {
+      color: #F87171;
+    }
+
+    .admin-alert-success {
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: #059669;
+    }
+
+    [data-theme="dark"] .admin-alert-success {
+      color: #34D399;
+    }
+
+    .admin-alert-info {
+      background: rgba(10, 77, 140, 0.08);
+      border: 1px solid rgba(10, 77, 140, 0.2);
+      color: var(--color-primary);
+    }
+
+    [data-theme="dark"] .admin-alert-info {
+      background: rgba(56, 189, 248, 0.1);
+      border-color: rgba(56, 189, 248, 0.3);
+      color: #38BDF8;
+    }
+
+    /* Live Preview Card styling matching index.html */
+    .preview-card-wrap {
+      border: 1px dashed var(--color-card-border);
+      border-radius: var(--radius-md);
+      padding: 1rem;
+      background: rgba(0, 0, 0, 0.02);
+      margin-bottom: 2rem;
+    }
+
+    .preview-badge-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--color-primary);
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    /* Recent Announcements List */
+    .recent-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+
+    .recent-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.75rem;
+      border: 1px solid var(--color-card-border);
+      border-radius: var(--radius-sm);
+      background: var(--color-surface);
+      transition: border-color 0.2s ease;
+    }
+
+    .recent-item:hover {
+      border-color: var(--color-primary);
+    }
+
+    .recent-thumb {
+      width: 52px;
+      height: 52px;
+      border-radius: 6px;
+      object-fit: cover;
+      flex-shrink: 0;
+      background: var(--color-card-border);
+    }
+
+    .recent-meta-wrap {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .recent-title {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--color-text-dark);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .recent-sub {
+      font-size: 0.76rem;
+      color: var(--color-text-muted);
+      margin-top: 0.2rem;
+    }
+
+    /* Loading Spinner */
+    .spinner {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: #FFFFFF;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* Modal */
+    .admin-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.65);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 1rem;
+    }
+
+    .admin-modal-content {
+      background: var(--color-surface);
+      border: 1px solid var(--color-card-border);
+      border-radius: var(--radius-lg);
+      max-width: 640px;
+      width: 100%;
+      padding: 2rem;
+      box-shadow: var(--shadow-xl);
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .code-block {
+      background: #0B1120;
+      color: #E2E8F0;
+      padding: 1rem;
+      border-radius: 8px;
+      font-family: monospace;
+      font-size: 0.82rem;
+      overflow-x: auto;
+      margin: 1rem 0;
+      line-height: 1.5;
+    }
+
+    /* Admissions Status Controller Card */
+    .admissions-control-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-card-border);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      box-shadow: var(--shadow-md);
+      margin-bottom: 2rem;
+    }
+
+    .adm-status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem 0.95rem;
+      border-radius: var(--radius-full);
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .adm-status-pill.open {
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      color: #059669;
+    }
+
+    [data-theme="dark"] .adm-status-pill.open {
+      color: #34D399;
+      background: rgba(16, 185, 129, 0.18);
+    }
+
+    .adm-status-pill.closed {
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.35);
+      color: #DC2626;
+    }
+
+    [data-theme="dark"] .adm-status-pill.closed {
+      color: #F87171;
+      background: rgba(239, 68, 68, 0.18);
+    }
+
+    .status-toggle-wrapper {
+      display: inline-flex;
+      background: rgba(0, 0, 0, 0.05);
+      border: 1px solid var(--color-card-border);
+      padding: 0.3rem;
+      border-radius: var(--radius-md);
+      gap: 0.35rem;
+    }
+
+    [data-theme="dark"] .status-toggle-wrapper {
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .status-toggle-option {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.65rem 1.4rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.92rem;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      color: var(--color-text-muted);
+      transition: all 0.2s ease;
+    }
+
+    .status-toggle-option:hover {
+      color: var(--color-text-dark);
+    }
+
+    .status-toggle-option.active-open {
+      background: #10B981;
+      color: #FFFFFF;
+      box-shadow: 0 2px 8px rgba(16, 185, 129, 0.35);
+    }
+
+    .status-toggle-option.active-closed {
+      background: #EF4444;
+      color: #FFFFFF;
+      box-shadow: 0 2px 8px rgba(239, 68, 68, 0.35);
+    }
+
+    .gh-sync-details {
+      background: rgba(10, 77, 140, 0.03);
+      border: 1px solid var(--color-card-border);
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+      margin-top: 1.5rem;
+    }
+
+    [data-theme="dark"] .gh-sync-details {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .adm-preview-box {
+      border: 1px dashed var(--color-card-border);
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+      background: rgba(0, 0, 0, 0.015);
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    [data-theme="dark"] .adm-preview-box {
+      background: rgba(255, 255, 255, 0.015);
+    }
+  </style>
+</head>
+
+<body class="admin-body">
+
+  <!-- ==========================================================
+       Top Navigation Bar
+       ========================================================== -->
+  <header class="admin-navbar">
+    <div class="admin-container admin-nav-content">
+      <a href="../index.html" class="admin-brand" title="Return to Brainz Edu World">
+        <img src="../assets/Home/Images/logo_with_full_name.png" alt="Brainz Edu World Crest">
+        <div class="admin-brand-info">
+          <span class="admin-brand-title">Brainz Edu World</span>
+          <span class="admin-brand-badge">Staff Administration Portal</span>
+        </div>
+      </a>
+
+      <div class="admin-nav-actions">
+        <!-- Live status indicator when logged in -->
+        <div id="nav-auth-badge" class="staff-badge" style="display: none;">
+          <span class="status-dot"></span>
+          <span id="nav-user-email">staff@brainzeduworld.ac.in</span>
+        </div>
+
+        <!-- Quick link to view home page live feed -->
+        <a href="../index.html#events" target="_blank" class="admin-btn admin-btn-outline"
+          title="View Live Announcements">
+          <i data-lucide="external-link" style="width: 15px; height: 15px;"></i>
+          <span>Live Site</span>
+        </a>
+
+        <!-- Database setup instructions guide -->
+        <button type="button" id="open-sql-guide" class="admin-btn admin-btn-outline" title="Database Setup Reference">
+          <i data-lucide="database" style="width: 15px; height: 15px;"></i>
+          <span>SQL Setup</span>
+        </button>
+
+        <!-- Dark / Light Theme Toggle -->
+        <button type="button" class="admin-btn admin-btn-outline" id="admin-theme-toggle" aria-label="Toggle Dark Mode"
+          title="Toggle Theme">
+          <i data-lucide="moon" id="admin-theme-icon" style="width: 16px; height: 16px;"></i>
+        </button>
+
+        <!-- Logout Button (Active in dashboard) -->
+        <button type="button" id="logout-btn" class="admin-btn admin-btn-danger" style="display: none;"
+          title="Sign out of portal">
+          <i data-lucide="log-out" style="width: 15px; height: 15px;"></i>
+          <span>Log Out</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==========================================================
+       State 1: Authentication Card (#login-view)
+       ========================================================== -->
+  <main id="login-view" class="login-wrapper">
+    <div class="login-card">
+      <img src="../assets/Home/Images/logo_with_full_name.png" alt="Brainz Edu World" class="login-logo">
+      <h1 class="login-title">Staff Portal Login</h1>
+      <p class="login-subtitle">Sign in with authorized staff credentials to publish school announcements and news
+        updates.</p>
+
+      <!-- Supabase Configuration Warning (renders only if credentials are unset) -->
+      <div id="config-warning-banner" class="admin-alert admin-alert-info" style="display: none;">
+        <i data-lucide="alert-circle" style="width: 18px; height: 18px; flex-shrink: 0; margin-top: 1px;"></i>
+        <div>
+          <strong>Configuration Notice:</strong> Update <code>SUPABASE_URL</code> and <code>SUPABASE_ANON_KEY</code>
+          with your project credentials to connect auth & database.
+        </div>
+      </div>
+
+      <!-- Login Error Alert -->
+      <div id="login-error" class="admin-alert admin-alert-error" style="display: none;">
+        <i data-lucide="alert-triangle" style="width: 18px; height: 18px; flex-shrink: 0; margin-top: 1px;"></i>
+        <span id="login-error-msg">Invalid login credentials.</span>
+      </div>
+
+      <form id="login-form">
+        <div class="form-group">
+          <label for="login-email" class="form-label">Staff Email Address</label>
+          <input type="email" id="login-email" class="form-control" placeholder="staff@brainzeduworld.ac.in" required
+            autocomplete="email">
+        </div>
+
+        <div class="form-group">
+          <label for="login-password" class="form-label">Password</label>
+          <input type="password" id="login-password" class="form-control" placeholder="••••••••" required
+            autocomplete="current-password">
+        </div>
+
+        <button type="submit" id="login-btn" class="admin-btn admin-btn-primary"
+          style="width: 100%; justify-content: center; padding: 0.85rem; font-size: 0.95rem; margin-top: 0.5rem;">
+          <span id="login-btn-text">Sign In to Portal</span>
+          <i data-lucide="arrow-right" style="width: 16px; height: 16px;"></i>
+        </button>
+      </form>
+
+      <div
+        style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--color-card-border); font-size: 0.85rem;">
+        <a href="../index.html"
+          style="color: var(--color-text-muted); text-decoration: none; display: inline-flex; align-items: center; gap: 0.35rem;">
+          <i data-lucide="arrow-left" style="width: 14px; height: 14px;"></i> Return to Main Website
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <!-- ==========================================================
+       State 2: Publishing Dashboard (#dashboard-view)
+       ========================================================== -->
+  <main id="dashboard-view" class="dashboard-wrapper" style="display: none;">
+    <div class="admin-container">
+
+      <!-- Feedback Banner -->
+      <div id="publish-status" class="admin-alert" style="display: none;"></div>
+
+      <!-- ==========================================================
+           Admissions Status & Session Controller
+           ========================================================== -->
+      <section class="admissions-control-card" id="admissions-control-section">
+        <div class="card-header-flex" style="margin-bottom: 1.25rem;">
+          <div>
+            <h2 class="card-title">
+              <i data-lucide="graduation-cap" style="width: 24px; height: 24px; color: var(--color-primary);"></i>
+              Admissions Status Controller
+            </h2>
+            <p style="font-size: 0.85rem; color: var(--color-text-muted); margin-top: 0.25rem;">
+              Switch admissions Open or Closed across the website. Automatically synchronizes in real-time and commits to GitHub.
+            </p>
+          </div>
+          <div id="adm-live-badge-wrapper">
+            <span class="adm-status-pill open" id="adm-current-pill">
+              <span class="status-dot"></span>
+              <span id="adm-pill-text">Admissions Open (2026–27)</span>
+            </span>
+          </div>
+        </div>
+
+        <!-- Admissions Status Feedback Alert -->
+        <div id="adm-status-msg" class="admin-alert" style="display: none;"></div>
+
+        <form id="admissions-status-form">
+          <!-- Big Interactive Toggle Controls -->
+          <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; padding: 1.25rem; background: rgba(10, 77, 140, 0.03); border: 1px solid var(--color-card-border); border-radius: var(--radius-md); margin-bottom: 1.5rem;">
+            <div>
+              <div style="font-weight: 700; font-size: 1rem; color: var(--color-text-dark); margin-bottom: 0.2rem;">
+                Admissions Acceptance Status
+              </div>
+              <div style="font-size: 0.82rem; color: var(--color-text-muted);">
+                Select whether prospective parents can apply immediately or be routed to the waitlist inquiry.
+              </div>
+            </div>
+
+            <div class="status-toggle-wrapper">
+              <button type="button" class="status-toggle-option active-open" id="adm-btn-open">
+                <i data-lucide="check-circle" style="width: 16px; height: 16px;"></i>
+                <span>Admissions OPEN</span>
+              </button>
+              <button type="button" class="status-toggle-option" id="adm-btn-closed">
+                <i data-lucide="x-circle" style="width: 16px; height: 16px;"></i>
+                <span>Admissions CLOSED</span>
+              </button>
+            </div>
+            <!-- Hidden boolean state -->
+            <input type="hidden" id="adm-is-open-input" value="true">
+          </div>
+
+          <!-- Academic Session & Eligible Classes -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 1.25rem;">
+            <div class="form-group" style="margin-bottom: 0;">
+              <label for="adm-session-input" class="form-label">Academic Session *</label>
+              <input type="text" id="adm-session-input" class="form-control" value="2026–27" placeholder="e.g. 2026–27" required>
+              <span style="font-size: 0.74rem; color: var(--color-text-muted);">Displays on navbar badges, banners, and forms.</span>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 0;">
+              <label for="adm-grade-range-input" class="form-label">Eligible Classes / Grade Range *</label>
+              <input type="text" id="adm-grade-range-input" class="form-control" value="Pre-Primary to Grade XI" placeholder="e.g. Pre-Primary to Grade XI" required>
+              <span style="font-size: 0.74rem; color: var(--color-text-muted);">Grade range open for admission registrations.</span>
+            </div>
+          </div>
+
+          <!-- Custom Messages for Open & Closed States -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 1.5rem;">
+            <div class="form-group" style="margin-bottom: 0;">
+              <label for="adm-open-notice-input" class="form-label">Active Notice (When Admissions are OPEN) *</label>
+              <textarea id="adm-open-notice-input" class="form-control" rows="3" required placeholder="Registrations and interactive admissions are now open for Pre-Primary up to Grade XI..."></textarea>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 0;">
+              <label for="adm-closed-notice-input" class="form-label">Notice Message (When Admissions are CLOSED) *</label>
+              <textarea id="adm-closed-notice-input" class="form-control" rows="3" required placeholder="Admissions for the current academic session are now closed. Inquiries for the upcoming session are welcome..."></textarea>
+            </div>
+          </div>
+
+          <!-- Live Preview Box -->
+          <div class="adm-preview-box">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <span class="preview-badge-label" style="margin: 0;">
+                <i data-lucide="eye" style="width: 14px; height: 14px;"></i> Live Website Preview
+              </span>
+              <span style="font-size: 0.76rem; color: var(--color-text-muted);">Interactive simulation of main website</span>
+            </div>
+
+            <div style="display: flex; flex-wrap: wrap; gap: 1.25rem; align-items: center; justify-content: space-between; padding: 1rem; background: var(--color-surface); border: 1px solid var(--color-card-border); border-radius: var(--radius-sm);">
+              <!-- Navbar CTA Preview -->
+              <div style="display: flex; align-items: center; gap: 0.75rem;">
+                <span style="font-size: 0.8rem; font-weight: 600; color: var(--color-text-muted);">Navbar Button:</span>
+                <span id="preview-adm-btn" class="admin-btn admin-btn-primary" style="pointer-events: none;">Apply Now</span>
+              </div>
+
+              <!-- Hero Badge Preview -->
+              <div style="display: flex; align-items: center; gap: 0.75rem;">
+                <span style="font-size: 0.8rem; font-weight: 600; color: var(--color-text-muted);">Hero Badge:</span>
+                <span id="preview-adm-badge" class="adm-status-pill open">Admissions 2026–27</span>
+              </div>
+            </div>
+
+            <!-- Status Banner Preview -->
+            <div id="preview-adm-card" style="padding: 1rem; border-left: 4px solid #10b981; background: var(--color-surface); border-radius: var(--radius-sm); border-top: 1px solid var(--color-card-border); border-right: 1px solid var(--color-card-border); border-bottom: 1px solid var(--color-card-border);">
+              <div style="display: flex; align-items: flex-start; gap: 0.75rem;">
+                <div id="preview-adm-icon" style="color: #059669; margin-top: 2px;">
+                  <i data-lucide="check-circle-2" style="width: 20px; height: 20px;"></i>
+                </div>
+                <div>
+                  <h4 id="preview-adm-heading" style="font-size: 0.92rem; font-weight: 700; color: #065f46; margin: 0 0 0.25rem;">
+                    Admissions Open (Session 2026–27)
+                  </h4>
+                  <p id="preview-adm-notice" style="font-size: 0.82rem; color: var(--color-text-muted); margin: 0; line-height: 1.5;">
+                    Registrations and interactive admissions are now open for Pre-Primary up to Grade XI. Secure your child's future today.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Automated GitHub Repository Commit Sync (Expandable Settings) -->
+          <div class="gh-sync-details">
+            <div style="display: flex; align-items: center; justify-content: space-between; cursor: pointer;" id="gh-sync-toggle-header">
+              <div style="display: flex; align-items: center; gap: 0.6rem;">
+                <i data-lucide="github" style="width: 18px; height: 18px; color: var(--color-text-dark);"></i>
+                <span style="font-weight: 700; font-size: 0.9rem; color: var(--color-text-dark);">GitHub Repository Auto-Commit Settings</span>
+                <span class="adm-status-pill" id="gh-status-badge" style="padding: 0.2rem 0.6rem; font-size: 0.72rem; background: rgba(10, 77, 140, 0.08); color: var(--color-primary); border-color: rgba(10, 77, 140, 0.2);">
+                  Supabase Realtime + GitHub API
+                </span>
+              </div>
+              <button type="button" class="admin-btn admin-btn-outline" style="padding: 0.25rem 0.6rem; font-size: 0.75rem;">
+                <span id="gh-toggle-text">Configure PAT</span>
+                <i data-lucide="chevron-down" id="gh-toggle-icon" style="width: 14px; height: 14px;"></i>
+              </button>
+            </div>
+
+            <div id="gh-sync-fields" style="margin-top: 1rem; display: none;">
+              <p style="font-size: 0.8rem; color: var(--color-text-muted); margin-bottom: 1rem; line-height: 1.5;">
+                Providing a GitHub Personal Access Token (PAT) allows this portal to push an automated Git commit directly to <code>data/admissions.json</code> on the <code>main</code> branch whenever status changes.
+                <em>(Note: Realtime Supabase broadcast automatically updates live visitors immediately even without a GitHub PAT).</em>
+              </p>
+
+              <div style="display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 1rem;">
+                <div class="form-group" style="margin-bottom: 0.5rem;">
+                  <label for="adm-gh-token" class="form-label">GitHub Personal Access Token (PAT)</label>
+                  <input type="password" id="adm-gh-token" class="form-control" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="off">
+                </div>
+
+                <div class="form-group" style="margin-bottom: 0.5rem;">
+                  <label for="adm-gh-repo" class="form-label">Repository</label>
+                  <input type="text" id="adm-gh-repo" class="form-control" value="ZZZGamerz/Brainz-Edu-World">
+                </div>
+
+                <div class="form-group" style="margin-bottom: 0.5rem;">
+                  <label for="adm-gh-branch" class="form-label">Branch</label>
+                  <input type="text" id="adm-gh-branch" class="form-control" value="main">
+                </div>
+              </div>
+
+              <div style="margin-top: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                <input type="checkbox" id="adm-gh-remember" checked>
+                <label for="adm-gh-remember" style="font-size: 0.78rem; color: var(--color-text-muted); cursor: pointer;">
+                  Save GitHub PAT securely in browser localStorage on this device
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Save Button & Links -->
+          <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; margin-top: 1.75rem;">
+            <div style="display: flex; gap: 0.75rem; align-items: center;">
+              <button type="submit" id="adm-save-btn" class="admin-btn admin-btn-primary" style="padding: 0.85rem 1.75rem; font-size: 0.95rem;">
+                <i data-lucide="save" id="adm-save-icon" style="width: 17px; height: 17px;"></i>
+                <span id="adm-save-text">Save & Publish Admissions Status</span>
+              </button>
+              <button type="button" id="adm-reset-btn" class="admin-btn admin-btn-outline" style="padding: 0.85rem 1.25rem;">
+                Reset
+              </button>
+            </div>
+
+            <div style="display: flex; gap: 0.75rem;">
+              <a href="../admissions.html" target="_blank" class="admin-btn admin-btn-outline" title="Open Admissions Page in new tab">
+                <i data-lucide="external-link" style="width: 14px; height: 14px;"></i>
+                <span>View Admissions Page</span>
+              </a>
+              <a href="../index.html" target="_blank" class="admin-btn admin-btn-outline" title="Open Home Page in new tab">
+                <i data-lucide="external-link" style="width: 14px; height: 14px;"></i>
+                <span>View Home Page</span>
+              </a>
+            </div>
+          </div>
+        </form>
+      </section>
+
+      <div class="dashboard-grid">
+
+        <!-- Left Column: Publishing Form -->
+        <div class="dashboard-card">
+          <div class="card-header-flex">
+            <div>
+              <h2 class="card-title">
+                <i data-lucide="file-plus" style="width: 22px; height: 22px; color: var(--color-primary);"></i>
+                Publish Announcement
+              </h2>
+              <p style="font-size: 0.85rem; color: var(--color-text-muted); margin-top: 0.25rem;">
+                Submissions automatically display in the Latest Events feed on the home page.
+              </p>
+            </div>
+          </div>
+
+          <form id="publish-form">
+            <!-- Title -->
+            <div class="form-group">
+              <label for="news-title" class="form-label">Announcement Title *</label>
+              <input type="text" id="news-title" class="form-control"
+                placeholder="e.g. Brainz Students Excel in CBSE Zonal Science Exhibition" required>
+            </div>
+
+            <!-- Two-column: Category & Published Date -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+              <div class="form-group">
+                <label for="news-category" class="form-label">Category *</label>
+                <select id="news-category" class="form-control" required>
+                  <option value="Academics" selected>Academics</option>
+                  <option value="Sports">Sports</option>
+                  <option value="Eco Club">Eco Club</option>
+                  <option value="Community">Community</option>
+                  <option value="Events">Events</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="news-date" class="form-label">Published Date *</label>
+                <input type="date" id="news-date" class="form-control" required>
+              </div>
+            </div>
+
+            <!-- Cover Image File Picker -->
+            <div class="form-group">
+              <label class="form-label">Cover Image</label>
+              <div class="dropzone-box" id="dropzone">
+                <input type="file" id="news-image" accept="image/*">
+                <i data-lucide="image-plus" class="dropzone-icon"></i>
+                <div class="dropzone-text">Click or drag image file here</div>
+                <div class="dropzone-hint">PNG, JPG, JPEG, WEBP up to 5MB (Default banner used if omitted)</div>
+              </div>
+
+              <!-- Upload preview container -->
+              <div id="image-preview-wrapper" class="image-preview-container">
+                <img id="image-preview" src="" alt="Selected cover preview">
+                <button type="button" id="remove-image-btn" class="preview-remove-btn" title="Remove image">
+                  <i data-lucide="x" style="width: 16px; height: 16px;"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Description / Body -->
+            <div class="form-group">
+              <label for="news-desc" class="form-label">Summary / Description *</label>
+              <textarea id="news-desc" class="form-control" rows="4"
+                placeholder="Highlight key achievements, student accomplishments, schedule details, or participation guidelines..."
+                required></textarea>
+            </div>
+
+            <!-- Form Actions -->
+            <div style="display: flex; gap: 1rem; align-items: center; margin-top: 2rem;">
+              <button type="submit" id="publish-btn" class="admin-btn admin-btn-primary"
+                style="padding: 0.85rem 1.75rem; font-size: 0.95rem;">
+                <i data-lucide="send" id="publish-btn-icon" style="width: 17px; height: 17px;"></i>
+                <span id="publish-btn-text">Publish Announcement</span>
+              </button>
+
+              <button type="button" id="reset-btn" class="admin-btn admin-btn-outline"
+                style="padding: 0.85rem 1.25rem;">
+                Reset
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Right Column: Live Card Preview & Recent History -->
+        <div>
+          <!-- Live Preview -->
+          <div class="preview-badge-label">
+            <i data-lucide="eye" style="width: 14px; height: 14px;"></i> Live Feed Preview
+          </div>
+
+          <div class="preview-card-wrap">
+            <article class="news-card"
+              style="box-shadow: none; border-color: var(--color-card-border); pointer-events: none;">
+              <div class="news-img-wrapper">
+                <img id="preview-img" src="../assets/Home/Images/banner.png" alt="Announcement preview" class="news-img"
+                  style="height: 200px;">
+              </div>
+              <div class="news-content">
+                <div>
+                  <div class="news-meta">
+                    <span id="preview-category">Academics</span>
+                    <span>•</span>
+                    <span id="preview-date">Today</span>
+                  </div>
+                  <h3 class="news-title" id="preview-title">Announcement Headline Preview</h3>
+                  <p class="news-desc" id="preview-desc">Details of your announcement will appear here exactly as seen
+                    by parents, students, and visitors.</p>
+                </div>
+                <span class="news-link">Read Full Article <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                    <polyline points="12 5 19 12 12 19" />
+                  </svg></span>
+              </div>
+            </article>
+          </div>
+
+          <!-- Recent Published Announcements -->
+          <div class="dashboard-card" style="margin-top: 1.5rem;">
+            <div class="card-header-flex">
+              <h3 class="card-title" style="font-size: 1.1rem;">
+                <i data-lucide="clock" style="width: 18px; height: 18px; color: var(--color-primary);"></i>
+                Recent Announcements
+              </h3>
+              <button type="button" id="refresh-recent-btn" class="admin-btn admin-btn-outline"
+                style="padding: 0.35rem 0.65rem; font-size: 0.75rem;" title="Refresh list">
+                <i data-lucide="rotate-cw" style="width: 13px; height: 13px;"></i>
+                <span>Refresh</span>
+              </button>
+            </div>
+
+            <div id="recent-news-list" class="recent-list">
+              <div style="font-size: 0.85rem; color: var(--color-text-muted); text-align: center; padding: 1.5rem 0;">
+                Loading live records...
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- ==========================================================
+       SQL Reference Modal
+       ========================================================== -->
+  <div id="sql-modal" class="admin-modal">
+    <div class="admin-modal-content">
+      <div class="card-header-flex">
+        <h3 class="card-title">
+          <i data-lucide="database" style="width: 20px; height: 20px; color: var(--color-primary);"></i>
+          Supabase SQL & Storage Guide
+        </h3>
+        <button type="button" id="close-sql-modal" class="admin-btn admin-btn-outline" style="padding: 0.35rem 0.5rem;">
+          <i data-lucide="x" style="width: 16px; height: 16px;"></i>
+        </button>
+      </div>
+
+      <p style="font-size: 0.88rem; color: var(--color-text-muted); line-height: 1.6;">
+        Run the following script in the <strong>SQL Editor</strong> of your Supabase dashboard to create the table, set
+        defaults, and enable Row Level Security (RLS) policies.
+      </p>
+
+      <div class="code-block">-- 1. Announcements Table
+create table if not exists news (
+  id bigint generated by default as identity primary key,
+  title text not null,
+  category text not null,
+  description text not null,
+  published_date date default current_date,
+  image_url text,
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
+
+alter table news enable row level security;
+create policy "Allow public read" on news for select using (true);
+create policy "Allow staff insert" on news for insert with check (auth.role() = 'authenticated');
+create policy "Allow staff delete" on news for delete with check (auth.role() = 'authenticated');
+
+-- 2. Admissions Status & Site Settings Table
+create table if not exists site_settings (
+  key text primary key,
+  value jsonb not null,
+  updated_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
+
+alter table site_settings enable row level security;
+create policy "Allow public read site_settings" on site_settings for select using (true);
+create policy "Allow staff upsert site_settings" on site_settings for all using (true) with check (true);
+
+-- 3. Enable Realtime Broadcast for Instant Sync
+alter publication supabase_realtime add table site_settings;</div>
+
+      <h4 style="font-size: 0.95rem; font-weight: 700; margin: 1.25rem 0 0.5rem; color: var(--color-text-dark);">Storage
+        Bucket Setup:</h4>
+      <ol style="font-size: 0.85rem; color: var(--color-text-muted); padding-left: 1.25rem; line-height: 1.6;">
+        <li>Go to <strong>Storage</strong> &rarr; <strong>New bucket</strong>.</li>
+        <li>Name the bucket: <code>news-images</code></li>
+        <li>Enable <strong>"Public bucket"</strong> so uploaded news photos load on the home page.</li>
+        <li>Add an insert policy on storage objects for <code>authenticated</code> users.</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- ==========================================================
+       Logic & Supabase Integration Script
+       ========================================================== -->
+  <script>
+    // ==========================================================
+    // 1. Supabase Project Credentials Configuration
+    // ==========================================================
+    const SUPABASE_URL = "https://zywgmcmsgirdazrtkhlk.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp5d2dtY21zZ2lyZGF6cnRraGxrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAyNTg3NTQsImV4cCI6MjEwNTgzNDc1NH0.40XvGIbRKrGvP3okpgUJLf-Y1VPQAr80zP0tJ8cRg0A";
+
+    let supabaseClient = null;
+    let selectedImageFile = null;
+
+    // Initialize Supabase Client
+    const isConfigured = Boolean(
+      SUPABASE_URL &&
+      !SUPABASE_URL.includes("YOUR_SUPABASE_PROJECT_ID") &&
+      SUPABASE_ANON_KEY &&
+      !SUPABASE_ANON_KEY.includes("YOUR_SUPABASE_ANON_KEY")
+    );
+
+    if (isConfigured && typeof window.supabase !== 'undefined') {
+      supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    } else {
+      console.warn("[Admin Portal] Supabase credentials not yet configured. Please update SUPABASE_URL and SUPABASE_ANON_KEY.");
+      const warnBanner = document.getElementById('config-warning-banner');
+      if (warnBanner) warnBanner.style.display = 'flex';
+    }
+
+    // ==========================================================
+    // 2. DOM Elements
+    // ==========================================================
+    const loginView = document.getElementById('login-view');
+    const dashboardView = document.getElementById('dashboard-view');
+    const loginForm = document.getElementById('login-form');
+    const loginEmailInput = document.getElementById('login-email');
+    const loginPasswordInput = document.getElementById('login-password');
+    const loginBtn = document.getElementById('login-btn');
+    const loginBtnText = document.getElementById('login-btn-text');
+    const loginError = document.getElementById('login-error');
+    const loginErrorMsg = document.getElementById('login-error-msg');
+
+    const logoutBtn = document.getElementById('logout-btn');
+    const navAuthBadge = document.getElementById('nav-auth-badge');
+    const navUserEmail = document.getElementById('nav-user-email');
+
+    const publishForm = document.getElementById('publish-form');
+    const titleInput = document.getElementById('news-title');
+    const categorySelect = document.getElementById('news-category');
+    const dateInput = document.getElementById('news-date');
+    const imageInput = document.getElementById('news-image');
+    const descInput = document.getElementById('news-desc');
+    const dropzone = document.getElementById('dropzone');
+    const previewWrapper = document.getElementById('image-preview-wrapper');
+    const imagePreview = document.getElementById('image-preview');
+    const removeImageBtn = document.getElementById('remove-image-btn');
+    const publishBtn = document.getElementById('publish-btn');
+    const publishBtnText = document.getElementById('publish-btn-text');
+    const publishBtnIcon = document.getElementById('publish-btn-icon');
+    const resetBtn = document.getElementById('reset-btn');
+    const publishStatus = document.getElementById('publish-status');
+    const recentNewsList = document.getElementById('recent-news-list');
+    const refreshRecentBtn = document.getElementById('refresh-recent-btn');
+
+    // Live Card Preview Elements
+    const livePreviewTitle = document.getElementById('preview-title');
+    const livePreviewCategory = document.getElementById('preview-category');
+    const livePreviewDate = document.getElementById('preview-date');
+    const livePreviewDesc = document.getElementById('preview-desc');
+    const livePreviewImg = document.getElementById('preview-img');
+
+    // Modal Elements
+    const sqlModal = document.getElementById('sql-modal');
+    const openSqlGuide = document.getElementById('open-sql-guide');
+    const closeSqlModal = document.getElementById('close-sql-modal');
+
+    // Theme Toggle Elements
+    const adminThemeToggle = document.getElementById('admin-theme-toggle');
+    const adminThemeIcon = document.getElementById('admin-theme-icon');
+
+    // Set Default Today's Date
+    const setDefaultDate = () => {
+      const today = new Date().toISOString().split('T')[0];
+      dateInput.value = today;
+      updateLivePreview();
+    };
+
+    // ==========================================================
+    // 3. Theme Management
+    // ==========================================================
+    const initTheme = () => {
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      document.documentElement.setAttribute('data-theme', savedTheme);
+      updateThemeIcon(savedTheme);
+    };
+
+    const updateThemeIcon = (theme) => {
+      if (adminThemeIcon) {
+        adminThemeIcon.setAttribute('data-lucide', theme === 'dark' ? 'sun' : 'moon');
+        lucide.createIcons();
+      }
+    };
+
+    if (adminThemeToggle) {
+      adminThemeToggle.addEventListener('click', () => {
+        const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        updateThemeIcon(newTheme);
+      });
+    }
+
+    // ==========================================================
+    // 4. Authentication Flow
+    // ==========================================================
+    const checkSession = async () => {
+      if (!supabaseClient) {
+        showView('login');
+        return;
+      }
+
+      try {
+        const { data: { session }, error } = await supabaseClient.auth.getSession();
+        if (session && session.user) {
+          onUserLoggedIn(session.user);
+        } else {
+          showView('login');
+        }
+      } catch (err) {
+        console.error("Session check error:", err);
+        showView('login');
+      }
+    };
+
+    const showView = (view) => {
+      if (view === 'dashboard') {
+        loginView.style.display = 'none';
+        dashboardView.style.display = 'block';
+        logoutBtn.style.display = 'inline-flex';
+        navAuthBadge.style.display = 'inline-flex';
+      } else {
+        loginView.style.display = 'flex';
+        dashboardView.style.display = 'none';
+        logoutBtn.style.display = 'none';
+        navAuthBadge.style.display = 'none';
+      }
+      lucide.createIcons();
+    };
+
+    const onUserLoggedIn = (user) => {
+      navUserEmail.textContent = user.email || 'Authenticated Staff';
+      showView('dashboard');
+      setDefaultDate();
+      fetchRecentNews();
+      loadAdmissionsSettings();
+    };
+
+    // Handle Login Submit
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      loginError.style.display = 'none';
+
+      if (!supabaseClient) {
+        loginErrorMsg.textContent = "Supabase is not configured. Please supply valid project credentials in Admin-panel/index.html.";
+        loginError.style.display = 'flex';
+        return;
+      }
+
+      const email = loginEmailInput.value.trim();
+      const password = loginPasswordInput.value;
+
+      loginBtn.disabled = true;
+      loginBtnText.textContent = "Signing In...";
+      loginBtn.innerHTML = `<span class="spinner"></span> <span>Verifying...</span>`;
+
+      try {
+        const { data, error } = await supabaseClient.auth.signInWithPassword({
+          email,
+          password
+        });
+
+        if (error) {
+          loginErrorMsg.textContent = error.message || "Failed to sign in. Please verify your email and password.";
+          loginError.style.display = 'flex';
+        } else if (data && data.user) {
+          onUserLoggedIn(data.user);
+        }
+      } catch (err) {
+        loginErrorMsg.textContent = "Network error connecting to Supabase Auth service.";
+        loginError.style.display = 'flex';
+      } finally {
+        loginBtn.disabled = false;
+        loginBtn.innerHTML = `<span>Sign In to Portal</span> <i data-lucide="arrow-right" style="width: 16px; height: 16px;"></i>`;
+        lucide.createIcons();
+      }
+    });
+
+    // Handle Logout
+    logoutBtn.addEventListener('click', async () => {
+      if (supabaseClient) {
+        await supabaseClient.auth.signOut();
+      }
+      showView('login');
+    });
+
+    // Listen for Auth State Changes
+    if (supabaseClient) {
+      supabaseClient.auth.onAuthStateChange((event, session) => {
+        if (event === 'SIGNED_IN' && session?.user) {
+          onUserLoggedIn(session.user);
+        } else if (event === 'SIGNED_OUT') {
+          showView('login');
+        }
+      });
+    }
+
+    // ==========================================================
+    // 5. Live Card Preview & Image Selection
+    // ==========================================================
+    const formatDateDisplay = (dateString) => {
+      if (!dateString) return 'Today';
+      try {
+        const d = new Date(dateString + (dateString.includes('T') ? '' : 'T00:00:00'));
+        return d.toLocaleDateString('en-US', { month: 'long', day: '2-digit', year: 'numeric' });
+      } catch (e) {
+        return dateString;
+      }
+    };
+
+    const updateLivePreview = () => {
+      livePreviewTitle.textContent = titleInput.value.trim() || 'Announcement Headline Preview';
+      livePreviewCategory.textContent = categorySelect.value || 'Academics';
+      livePreviewDate.textContent = formatDateDisplay(dateInput.value);
+      livePreviewDesc.textContent = descInput.value.trim() || 'Details of your announcement will appear here exactly as seen by parents, students, and visitors.';
+    };
+
+    titleInput.addEventListener('input', updateLivePreview);
+    categorySelect.addEventListener('change', updateLivePreview);
+    dateInput.addEventListener('change', updateLivePreview);
+    descInput.addEventListener('input', updateLivePreview);
+
+    // Image Input & Drag-and-Drop
+    const handleSelectedImage = (file) => {
+      if (!file || !file.type.startsWith('image/')) return;
+      selectedImageFile = file;
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        imagePreview.src = e.target.result;
+        livePreviewImg.src = e.target.result;
+        previewWrapper.style.display = 'block';
+        lucide.createIcons();
+      };
+      reader.readAsDataURL(file);
+    };
+
+    imageInput.addEventListener('change', (e) => {
+      if (e.target.files && e.target.files[0]) {
+        handleSelectedImage(e.target.files[0]);
+      }
+    });
+
+    removeImageBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      selectedImageFile = null;
+      imageInput.value = '';
+      imagePreview.src = '';
+      previewWrapper.style.display = 'none';
+      livePreviewImg.src = '../assets/Home/Images/banner.png';
+    });
+
+    // Drag-and-Drop Visuals
+    ['dragenter', 'dragover'].forEach(eventName => {
+      dropzone.addEventListener(eventName, (e) => {
+        e.preventDefault();
+        dropzone.classList.add('dragover');
+      }, false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+      dropzone.addEventListener(eventName, (e) => {
+        e.preventDefault();
+        dropzone.classList.remove('dragover');
+      }, false);
+    });
+
+    dropzone.addEventListener('drop', (e) => {
+      if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+        handleSelectedImage(e.dataTransfer.files[0]);
+      }
+    });
+
+    // ==========================================================
+    // 6. Publishing Flow
+    // ==========================================================
+    publishForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      publishStatus.style.display = 'none';
+
+      if (!supabaseClient) {
+        showStatus('error', 'Supabase credentials are not configured. Cannot save announcement.');
+        return;
+      }
+
+      const title = titleInput.value.trim();
+      const category = categorySelect.value;
+      const publishedDate = dateInput.value;
+      const description = descInput.value.trim();
+
+      if (!title || !description || !publishedDate) {
+        showStatus('error', 'Please fill in all mandatory fields.');
+        return;
+      }
+
+      // Enter Loading State
+      publishBtn.disabled = true;
+      publishBtnIcon.style.display = 'none';
+      publishBtnText.textContent = "Publishing...";
+      publishBtn.innerHTML = `<span class="spinner"></span> <span>Publishing Announcement...</span>`;
+
+      let finalImageUrl = "assets/Home/Images/banner.png";
+
+      try {
+        // Upload image to Supabase Storage if provided
+        if (selectedImageFile) {
+          const fileExt = selectedImageFile.name.split('.').pop() || 'jpg';
+          const sanitizedBase = selectedImageFile.name.replace(/[^a-zA-Z0-9]/g, '_').substring(0, 30);
+          const fileName = `${Date.now()}_${sanitizedBase}.${fileExt}`;
+
+          const { data: uploadData, error: uploadError } = await supabaseClient.storage
+            .from('news-images')
+            .upload(fileName, selectedImageFile, {
+              cacheControl: '3600',
+              upsert: false
+            });
+
+          if (uploadError) {
+            console.warn("[Admin Portal] Storage upload error (using fallback image):", uploadError.message);
+          } else {
+            const { data: publicUrlData } = supabaseClient.storage
+              .from('news-images')
+              .getPublicUrl(fileName);
+
+            if (publicUrlData && publicUrlData.publicUrl) {
+              finalImageUrl = publicUrlData.publicUrl;
+            }
+          }
+        }
+
+        // Insert into 'news' table
+        const { data: insertData, error: insertError } = await supabaseClient
+          .from('news')
+          .insert([
+            {
+              title,
+              category,
+              published_date: publishedDate,
+              description,
+              image_url: finalImageUrl
+            }
+          ])
+          .select();
+
+        if (insertError) {
+          throw new Error(insertError.message);
+        }
+
+        // Success State
+        showStatus('success', 'Announcement published successfully! It is now live on the Brainz Edu World home page.');
+
+        // Reset form
+        publishForm.reset();
+        selectedImageFile = null;
+        imageInput.value = '';
+        previewWrapper.style.display = 'none';
+        livePreviewImg.src = '../assets/Home/Images/banner.png';
+        setDefaultDate();
+
+        // Refresh recent posts
+        fetchRecentNews();
+
+      } catch (err) {
+        showStatus('error', `Failed to publish announcement: ${err.message || 'Unknown database error'}`);
+      } finally {
+        publishBtn.disabled = false;
+        publishBtn.innerHTML = `<i data-lucide="send" id="publish-btn-icon" style="width: 17px; height: 17px;"></i> <span id="publish-btn-text">Publish Announcement</span>`;
+        lucide.createIcons();
+      }
+    });
+
+    const showStatus = (type, message) => {
+      publishStatus.className = `admin-alert admin-alert-${type}`;
+      publishStatus.innerHTML = `
+        <i data-lucide="${type === 'success' ? 'check-circle' : 'alert-circle'}" style="width: 20px; height: 20px; flex-shrink: 0; margin-top: 1px;"></i>
+        <div>${message}</div>
+      `;
+      publishStatus.style.display = 'flex';
+      lucide.createIcons();
+      publishStatus.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    };
+
+    resetBtn.addEventListener('click', () => {
+      publishForm.reset();
+      selectedImageFile = null;
+      imageInput.value = '';
+      previewWrapper.style.display = 'none';
+      livePreviewImg.src = '../assets/Home/Images/banner.png';
+      publishStatus.style.display = 'none';
+      setDefaultDate();
+    });
+
+    // ==========================================================
+    // 7. Recent Announcements Fetcher
+    // ==========================================================
+    const fetchRecentNews = async () => {
+      if (!supabaseClient) return;
+
+      try {
+        const { data: newsItems, error } = await supabaseClient
+          .from('news')
+          .select('*')
+          .order('created_at', { ascending: false })
+          .limit(5);
+
+        if (error) {
+          recentNewsList.innerHTML = `<div style="font-size: 0.85rem; color: #EF4444; padding: 1rem 0;">Error fetching records: ${error.message}</div>`;
+          return;
+        }
+
+        if (!newsItems || newsItems.length === 0) {
+          recentNewsList.innerHTML = `<div style="font-size: 0.85rem; color: var(--color-text-muted); text-align: center; padding: 1.5rem 0;">No announcements published yet.</div>`;
+          return;
+        }
+
+        recentNewsList.innerHTML = newsItems.map((item) => {
+          const displayImg = item.image_url?.startsWith('http')
+            ? item.image_url
+            : `../${item.image_url || 'assets/Home/Images/banner.png'}`;
+
+          return `
+            <div class="recent-item">
+              <img src="${displayImg}" alt="${item.title}" class="recent-thumb" onerror="this.onerror=null;this.src='../assets/Home/Images/banner.png';">
+              <div class="recent-meta-wrap">
+                <div class="recent-title" title="${item.title}">${item.title}</div>
+                <div class="recent-sub">
+                  <strong style="color: var(--color-primary);">${item.category}</strong> • ${formatDateDisplay(item.published_date)}
+                </div>
+              </div>
+              <button type="button" class="admin-btn admin-btn-outline" onclick="deleteAnnouncement(${item.id})" style="padding: 0.35rem 0.5rem; color: #EF4444;" title="Delete this post">
+                <i data-lucide="trash-2" style="width: 14px; height: 14px;"></i>
+              </button>
+            </div>
+          `;
+        }).join('');
+
+        lucide.createIcons();
+      } catch (err) {
+        recentNewsList.innerHTML = `<div style="font-size: 0.85rem; color: var(--color-text-muted); text-align: center; padding: 1rem 0;">Unable to connect to news table.</div>`;
+      }
+    };
+
+    // Quick Delete functionality
+    window.deleteAnnouncement = async (id) => {
+      if (!confirm("Are you sure you want to delete this announcement? This action cannot be undone.")) return;
+
+      if (!supabaseClient) return;
+
+      try {
+        const { error } = await supabaseClient
+          .from('news')
+          .delete()
+          .eq('id', id);
+
+        if (error) {
+          alert(`Delete failed: ${error.message}`);
+        } else {
+          fetchRecentNews();
+        }
+      } catch (err) {
+        alert("Unexpected error deleting announcement.");
+      }
+    };
+
+    if (refreshRecentBtn) {
+      refreshRecentBtn.addEventListener('click', fetchRecentNews);
+    }
+
+    // ==========================================================
+    // 7b. Admissions Status Controller & Automated GitHub Sync
+    // ==========================================================
+    const admForm = document.getElementById('admissions-status-form');
+    const admBtnOpen = document.getElementById('adm-btn-open');
+    const admBtnClosed = document.getElementById('adm-btn-closed');
+    const admIsOpenInput = document.getElementById('adm-is-open-input');
+    const admSessionInput = document.getElementById('adm-session-input');
+    const admGradeRangeInput = document.getElementById('adm-grade-range-input');
+    const admOpenNoticeInput = document.getElementById('adm-open-notice-input');
+    const admClosedNoticeInput = document.getElementById('adm-closed-notice-input');
+    const admCurrentPill = document.getElementById('adm-current-pill');
+    const admPillText = document.getElementById('adm-pill-text');
+    const admStatusMsg = document.getElementById('adm-status-msg');
+    const admSaveBtn = document.getElementById('adm-save-btn');
+    const admResetBtn = document.getElementById('adm-reset-btn');
+
+    // Live preview elements
+    const previewAdmBtn = document.getElementById('preview-adm-btn');
+    const previewAdmBadge = document.getElementById('preview-adm-badge');
+    const previewAdmCard = document.getElementById('preview-adm-card');
+    const previewAdmIcon = document.getElementById('preview-adm-icon');
+    const previewAdmHeading = document.getElementById('preview-adm-heading');
+    const previewAdmNotice = document.getElementById('preview-adm-notice');
+
+    // GitHub Sync UI elements
+    const ghSyncToggleHeader = document.getElementById('gh-sync-toggle-header');
+    const ghSyncFields = document.getElementById('gh-sync-fields');
+    const ghToggleText = document.getElementById('gh-toggle-text');
+    const ghToggleIcon = document.getElementById('gh-toggle-icon');
+    const admGhToken = document.getElementById('adm-gh-token');
+    const admGhRepo = document.getElementById('adm-gh-repo');
+    const admGhBranch = document.getElementById('adm-gh-branch');
+    const admGhRemember = document.getElementById('adm-gh-remember');
+
+    // GitHub API Commit Helper for data/admissions.json
+    async function commitToGitHubRepo(token, repo, branch, filePath, fileContent, commitMessage) {
+      const getUrl = `https://api.github.com/repos/${repo}/contents/${filePath}?ref=${encodeURIComponent(branch)}`;
+      let sha = null;
+      try {
+        const getRes = await fetch(getUrl, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Accept': 'application/vnd.github+json',
+            'X-GitHub-Api-Version': '2022-11-28'
+          }
+        });
+        if (getRes.ok) {
+          const getJson = await getRes.json();
+          sha = getJson.sha;
+        }
+      } catch (err) {
+        console.warn("[Admin Admissions] Unable to query GitHub content sha:", err);
+      }
+
+      // Safe UTF-8 to Base64
+      const encoder = new TextEncoder();
+      const bytes = encoder.encode(fileContent);
+      let binary = '';
+      for (let i = 0; i < bytes.length; i++) {
+        binary += String.fromCharCode(bytes[i]);
+      }
+      const base64Content = btoa(binary);
+
+      const putUrl = `https://api.github.com/repos/${repo}/contents/${filePath}`;
+      const putBody = {
+        message: commitMessage,
+        content: base64Content,
+        branch: branch
+      };
+      if (sha) {
+        putBody.sha = sha;
+      }
+
+      const putRes = await fetch(putUrl, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Accept': 'application/vnd.github+json',
+          'Content-Type': 'application/json',
+          'X-GitHub-Api-Version': '2022-11-28'
+        },
+        body: JSON.stringify(putBody)
+      });
+
+      if (!putRes.ok) {
+        const errorJson = await putRes.json().catch(() => ({}));
+        throw new Error(errorJson.message || `GitHub HTTP error ${putRes.status}`);
+      }
+
+      return await putRes.json();
+    }
+
+    function setAdmissionsToggle(isOpen) {
+      if (!admIsOpenInput) return;
+      admIsOpenInput.value = isOpen ? 'true' : 'false';
+      if (isOpen) {
+        if (admBtnOpen) admBtnOpen.classList.add('active-open');
+        if (admBtnClosed) admBtnClosed.classList.remove('active-closed');
+      } else {
+        if (admBtnOpen) admBtnOpen.classList.remove('active-open');
+        if (admBtnClosed) admBtnClosed.classList.add('active-closed');
+      }
+      updateAdmissionsLivePreview();
+    }
+
+    if (admBtnOpen) {
+      admBtnOpen.addEventListener('click', () => setAdmissionsToggle(true));
+    }
+    if (admBtnClosed) {
+      admBtnClosed.addEventListener('click', () => setAdmissionsToggle(false));
+    }
+
+    [admSessionInput, admGradeRangeInput, admOpenNoticeInput, admClosedNoticeInput].forEach(input => {
+      if (input) input.addEventListener('input', updateAdmissionsLivePreview);
+    });
+
+    if (ghSyncToggleHeader) {
+      ghSyncToggleHeader.addEventListener('click', () => {
+        if (!ghSyncFields) return;
+        const isHidden = ghSyncFields.style.display === 'none';
+        ghSyncFields.style.display = isHidden ? 'block' : 'none';
+        if (ghToggleText) ghToggleText.textContent = isHidden ? 'Hide Settings' : 'Configure PAT';
+        if (ghToggleIcon) {
+          ghToggleIcon.setAttribute('data-lucide', isHidden ? 'chevron-up' : 'chevron-down');
+          lucide.createIcons();
+        }
+      });
+    }
+
+    function updateAdmissionsLivePreview() {
+      if (!admIsOpenInput) return;
+      const isOpen = admIsOpenInput.value === 'true';
+      const session = (admSessionInput && admSessionInput.value.trim()) || '2026–27';
+      const notice = isOpen
+        ? ((admOpenNoticeInput && admOpenNoticeInput.value.trim()) || "Registrations and interactive admissions are now open for Pre-Primary up to Grade XI. Secure your child's future today.")
+        : ((admClosedNoticeInput && admClosedNoticeInput.value.trim()) || "Admissions for the current academic session are now closed. Inquiries for the upcoming session are welcome.");
+
+      // Pill in header
+      if (admCurrentPill) {
+        admCurrentPill.className = `adm-status-pill ${isOpen ? 'open' : 'closed'}`;
+      }
+      if (admPillText) {
+        admPillText.textContent = isOpen ? `Admissions Open (${session})` : `Admissions Closed (${session})`;
+      }
+
+      // Navbar Button Preview
+      if (previewAdmBtn) {
+        previewAdmBtn.textContent = isOpen ? 'Apply Now' : 'Inquire / Waitlist';
+        previewAdmBtn.className = isOpen ? 'admin-btn admin-btn-primary' : 'admin-btn admin-btn-outline';
+      }
+
+      // Hero Badge Preview
+      if (previewAdmBadge) {
+        previewAdmBadge.className = `adm-status-pill ${isOpen ? 'open' : 'closed'}`;
+        previewAdmBadge.textContent = isOpen ? `Admissions ${session}` : `Admissions Closed (${session})`;
+      }
+
+      // Card Preview
+      if (previewAdmCard) {
+        previewAdmCard.style.borderLeft = isOpen ? '4px solid #10b981' : '4px solid #ef4444';
+        if (previewAdmIcon) {
+          previewAdmIcon.style.color = isOpen ? '#059669' : '#dc2626';
+          previewAdmIcon.innerHTML = `<i data-lucide="${isOpen ? 'check-circle-2' : 'alert-circle'}" style="width: 20px; height: 20px;"></i>`;
+        }
+        if (previewAdmHeading) {
+          previewAdmHeading.style.color = isOpen ? '#065f46' : '#991b1b';
+          previewAdmHeading.textContent = isOpen ? `Admissions Open (Session ${session})` : `Admissions Closed (Session ${session})`;
+        }
+        if (previewAdmNotice) {
+          previewAdmNotice.textContent = notice;
+        }
+        lucide.createIcons();
+      }
+    }
+
+    async function loadAdmissionsSettings() {
+      // 1. Load saved GitHub PAT from localStorage
+      try {
+        const savedToken = localStorage.getItem('brainz_github_pat');
+        if (savedToken && admGhToken) {
+          admGhToken.value = savedToken;
+          if (admGhRemember) admGhRemember.checked = true;
+          const badge = document.getElementById('gh-status-badge');
+          if (badge) {
+            badge.textContent = 'PAT Configured & Ready';
+            badge.style.background = 'rgba(16, 185, 129, 0.12)';
+            badge.style.color = '#059669';
+          }
+        }
+      } catch (e) {}
+
+      // 2. Fetch from Supabase site_settings
+      let loaded = null;
+      if (supabaseClient) {
+        try {
+          const { data, error } = await supabaseClient
+            .from('site_settings')
+            .select('value')
+            .eq('key', 'admissions')
+            .single();
+          if (!error && data && data.value) {
+            loaded = data.value;
+          }
+        } catch (e) {
+          console.warn("[Admin Admissions] Supabase site_settings fetch error:", e);
+        }
+      }
+
+      // 3. Fallback to local data/admissions.json
+      if (!loaded) {
+        try {
+          const res = await fetch('../data/admissions.json?t=' + Date.now());
+          if (res.ok) {
+            loaded = await res.json();
+          }
+        } catch (e) {}
+      }
+
+      // 4. Fallback to localStorage
+      if (!loaded) {
+        try {
+          const localStr = localStorage.getItem('brainz_admissions_status');
+          if (localStr) loaded = JSON.parse(localStr);
+        } catch (e) {}
+      }
+
+      // 5. Default fallback
+      if (!loaded) {
+        loaded = {
+          isOpen: true,
+          session: "2026–27",
+          gradeRange: "Pre-Primary to Grade XI",
+          notice: "Registrations and interactive admissions are now open for Pre-Primary up to Grade XI. Secure your child's future today.",
+          closedNotice: "Admissions for the current academic session are now closed. You may submit an inquiry or join the waitlist for the upcoming academic year."
+        };
+      }
+
+      if (admSessionInput) admSessionInput.value = loaded.session || '2026–27';
+      if (admGradeRangeInput) admGradeRangeInput.value = loaded.gradeRange || 'Pre-Primary to Grade XI';
+      if (admOpenNoticeInput) admOpenNoticeInput.value = loaded.notice || '';
+      if (admClosedNoticeInput) admClosedNoticeInput.value = loaded.closedNotice || '';
+
+      setAdmissionsToggle(Boolean(loaded.isOpen));
+    }
+
+    if (admForm) {
+      admForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (admStatusMsg) admStatusMsg.style.display = 'none';
+
+        const isOpen = admIsOpenInput.value === 'true';
+        const session = (admSessionInput && admSessionInput.value.trim()) || '2026–27';
+        const gradeRange = (admGradeRangeInput && admGradeRangeInput.value.trim()) || 'Pre-Primary to Grade XI';
+        const notice = (admOpenNoticeInput && admOpenNoticeInput.value.trim()) || '';
+        const closedNotice = (admClosedNoticeInput && admClosedNoticeInput.value.trim()) || '';
+
+        const payload = {
+          isOpen,
+          session,
+          gradeRange,
+          notice,
+          closedNotice,
+          updatedAt: new Date().toISOString()
+        };
+
+        // Loading state
+        admSaveBtn.disabled = true;
+        const originalBtnHTML = admSaveBtn.innerHTML;
+        admSaveBtn.innerHTML = `<span class="spinner"></span> <span>Saving & Publishing...</span>`;
+
+        const statusLogs = [];
+        let hasError = false;
+
+        // 1. Supabase Cloud Database Upsert
+        if (supabaseClient) {
+          try {
+            const { error: sbErr } = await supabaseClient
+              .from('site_settings')
+              .upsert({
+                key: 'admissions',
+                value: payload,
+                updated_at: new Date().toISOString()
+              }, { onConflict: 'key' });
+
+            if (sbErr) {
+              console.warn("[Admin Admissions] Supabase upsert notice:", sbErr.message);
+              statusLogs.push(`Cloud Database notice: ${sbErr.message}`);
+            } else {
+              statusLogs.push("Cloud Database synchronized. Live visitors will update automatically via real-time stream!");
+            }
+          } catch (sbEx) {
+            statusLogs.push(`Cloud Database: ${sbEx.message}`);
+          }
+        }
+
+        // 2. Local browser cache update
+        try {
+          localStorage.setItem('brainz_admissions_status', JSON.stringify(payload));
+        } catch (e) {}
+
+        // 3. GitHub Repository Direct Commit (via GitHub REST API)
+        const ghToken = admGhToken ? admGhToken.value.trim() : '';
+        const ghRepo = (admGhRepo && admGhRepo.value.trim()) || 'ZZZGamerz/Brainz-Edu-World';
+        const ghBranch = (admGhBranch && admGhBranch.value.trim()) || 'main';
+
+        if (ghToken) {
+          try {
+            if (admGhRemember && admGhRemember.checked) {
+              localStorage.setItem('brainz_github_pat', ghToken);
+            } else {
+              localStorage.removeItem('brainz_github_pat');
+            }
+
+            const commitMessage = `Update admissions status: ${isOpen ? 'OPEN' : 'CLOSED'} (Session ${session})`;
+            const ghResult = await commitToGitHubRepo(
+              ghToken,
+              ghRepo,
+              ghBranch,
+              'data/admissions.json',
+              JSON.stringify(payload, null, 2) + '\n',
+              commitMessage
+            );
+
+            const commitSha = ghResult?.commit?.sha ? ghResult.commit.sha.substring(0, 7) : 'latest';
+            statusLogs.push(`GitHub repository (${ghRepo}) updated at branch "${ghBranch}" (commit ${commitSha})!`);
+          } catch (ghEx) {
+            hasError = true;
+            statusLogs.push(`GitHub auto-commit notice: ${ghEx.message}. Verify that your GitHub token has repo content write permissions.`);
+          }
+        } else {
+          statusLogs.push("GitHub PAT was not provided (Site updated in Cloud Database & local cache. To also commit directly to Git repository, expand the GitHub settings and supply a PAT).");
+        }
+
+        // UI Feedback
+        if (admStatusMsg) {
+          admStatusMsg.className = `admin-alert ${hasError ? 'admin-alert-error' : 'admin-alert-success'}`;
+          admStatusMsg.innerHTML = `
+            <i data-lucide="${hasError ? 'alert-circle' : 'check-circle'}" style="width: 20px; height: 20px; flex-shrink: 0; margin-top: 2px;"></i>
+            <div>
+              <strong>${hasError ? 'Admissions Update Completed with Warning' : 'Admissions Status Successfully Updated!'}</strong>
+              <ul style="margin: 0.5rem 0 0 1.2rem; padding: 0; font-size: 0.84rem; line-height: 1.5;">
+                ${statusLogs.map(log => `<li>${log}</li>`).join('')}
+              </ul>
+            </div>
+          `;
+          admStatusMsg.style.display = 'flex';
+          lucide.createIcons();
+          admStatusMsg.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        admSaveBtn.disabled = false;
+        admSaveBtn.innerHTML = originalBtnHTML;
+        lucide.createIcons();
+
+        // Update preview
+        updateAdmissionsLivePreview();
+      });
+    }
+
+    if (admResetBtn) {
+      admResetBtn.addEventListener('click', () => {
+        loadAdmissionsSettings();
+        if (admStatusMsg) admStatusMsg.style.display = 'none';
+      });
+    }
+
+    // ==========================================================
+    // 8. SQL Setup Modal Controls
+    // ==========================================================
+    if (openSqlGuide) {
+      openSqlGuide.addEventListener('click', () => {
+        sqlModal.style.display = 'flex';
+        lucide.createIcons();
+      });
+    }
+
+    if (closeSqlModal) {
+      closeSqlModal.addEventListener('click', () => {
+        sqlModal.style.display = 'none';
+      });
+    }
+
+    window.addEventListener('click', (e) => {
+      if (e.target === sqlModal) {
+        sqlModal.style.display = 'none';
+      }
+    });
+
+    // ==========================================================
+    // 9. Startup Initialization
+    // ==========================================================
+    document.addEventListener('DOMContentLoaded', () => {
+      initTheme();
+      setDefaultDate();
+      checkSession();
+      loadAdmissionsSettings();
+      lucide.createIcons();
+    });
+  </script>
+</body>
+
+</html>
